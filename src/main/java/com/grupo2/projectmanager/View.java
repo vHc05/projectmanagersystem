@@ -49,6 +49,8 @@ public class View extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         filenamelabel = new javax.swing.JLabel();
         filename = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        fileextension = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +98,10 @@ public class View extends javax.swing.JFrame {
 
         filename.setText("jLabel8");
 
+        jLabel7.setText("Extension del archivo");
+
+        fileextension.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CSV", "JSON", "XML" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,7 +109,6 @@ public class View extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -126,7 +131,7 @@ public class View extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(searchbttn)
                                         .addGap(5, 5, 5))
                                     .addComponent(namefield)))
@@ -134,23 +139,31 @@ public class View extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(statusbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addbttn)
+                                .addComponent(statusbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(deletebttn)
+                                .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(editbttn)
-                                .addGap(18, 18, 18)
-                                .addComponent(savebttn)))
-                        .addGap(18, 18, 18)
-                        .addComponent(loadbttn))
+                                .addComponent(fileextension, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(90, 90, 90))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(filenamelabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(filename)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(filenamelabel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(filename))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(addbttn)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(deletebttn)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(editbttn)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(savebttn)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(loadbttn))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +194,9 @@ public class View extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(statusbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(statusbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(fileextension, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addbttn)
@@ -245,6 +260,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton deletebttn;
     private javax.swing.JButton editbttn;
     private javax.swing.JTextField enddatefield;
+    private javax.swing.JComboBox<String> fileextension;
     private javax.swing.JLabel filename;
     private javax.swing.JLabel filenamelabel;
     private javax.swing.JTextField initdatefield;
@@ -254,6 +270,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
