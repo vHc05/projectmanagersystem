@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class XMLInterface extends JFrame {
-    private ProyectoManager proyectoManager;
+    private ProjectManager projectManager;
     private JList<String> projectList;
     private DefaultListModel<String> listModel;
     private String filename = "proyectos.xml";
@@ -17,7 +17,7 @@ public class XMLInterface extends JFrame {
     private JButton downloadButton;
 
     public XMLInterface() {
-        proyectoManager = new ProyectoManager();
+        projectManager = new ProjectManager();
         setTitle("Proyectos en XML");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -66,9 +66,9 @@ public class XMLInterface extends JFrame {
 
     private void loadXML() {
         try {
-            proyectoManager.cargarDesdeXML(proyectoManager.getFilePath(filename));
+            projectManager.loadFromXML(projectManager.getFilePath(filename));
             reloadDisplay();
-            if (proyectoManager.getProyectos().isEmpty()) {
+            if (projectManager.getProjects().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class XMLInterface extends JFrame {
 
     private void reloadDisplay() {
         listModel.clear();
-        for (Proyecto p : proyectoManager.getProyectos()) {
+        for (Proyecto p : projectManager.getProjects()) {
             listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
         }
     }
@@ -90,9 +90,9 @@ public class XMLInterface extends JFrame {
 
         if (result == JOptionPane.OK_OPTION) {
             Proyecto newProject = form.getProyecto();
-            proyectoManager.agregarProyecto(newProject);
+            projectManager.addProject(newProject);
             try {
-                proyectoManager.guardarEnXML(proyectoManager.getFilePath(filename));
+                projectManager.saveInXML(projectManager.getFilePath(filename));
                 reloadDisplay();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error al guardar XML: " + e.getMessage(),
@@ -104,14 +104,14 @@ public class XMLInterface extends JFrame {
     private void deleteProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
-            Proyecto proyecto = proyectoManager.getProyectos().get(index);
+            Proyecto proyecto = projectManager.getProjects().get(index);
             int confirm = JOptionPane.showConfirmDialog(this,
                     "¿Está seguro de que desea eliminar el proyecto \"" + proyecto.getNombre() + "\"?",
                     "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                proyectoManager.eliminarProyecto(proyecto.getNombre());
+                projectManager.deleteProject(proyecto.getNombre());
                 try {
-                    proyectoManager.guardarEnXML(proyectoManager.getFilePath(filename));
+                    projectManager.saveInXML(projectManager.getFilePath(filename));
                     reloadDisplay();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar XML: " + e.getMessage(),
@@ -124,7 +124,7 @@ public class XMLInterface extends JFrame {
     private void modifyProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
-            Proyecto actualProject = proyectoManager.getProyectos().get(index);
+            Proyecto actualProject = projectManager.getProjects().get(index);
             ProyectoForm form = new ProyectoForm();
             form.setProyecto(actualProject);
 
@@ -133,9 +133,9 @@ public class XMLInterface extends JFrame {
 
             if (result == JOptionPane.OK_OPTION) {
                 Proyecto modifiedProject = form.getProyecto();
-                proyectoManager.modificarProyecto(actualProject.getNombre(), modifiedProject);
+                projectManager.modifyProject(actualProject.getNombre(), modifiedProject);
                 try {
-                    proyectoManager.guardarEnXML(proyectoManager.getFilePath(filename));
+                    projectManager.saveInXML(projectManager.getFilePath(filename));
                     reloadDisplay();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar XML: " + e.getMessage(),
@@ -151,7 +151,7 @@ public class XMLInterface extends JFrame {
         int option = fileChooser.showSaveDialog(this);
         if (option == JFileChooser.APPROVE_OPTION) {
             File destination = fileChooser.getSelectedFile();
-            String originPath = proyectoManager.getFilePath(filename);
+            String originPath = projectManager.getFilePath(filename);
             File origin = new File(originPath);
             try {
                 Files.copy(origin.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
