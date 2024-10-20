@@ -107,6 +107,7 @@ public class UI extends javax.swing.JFrame {
 
     private void csvButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_csvButtonActionPerformed
         // TODO add your handling code here:
+        new CSVInterface().setVisible(true);
     }//GEN-LAST:event_csvButtonActionPerformed
 
     private void jsonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jsonButtonActionPerformed
@@ -116,10 +117,12 @@ public class UI extends javax.swing.JFrame {
 
     private void xmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlButtonActionPerformed
         // TODO add your handling code here:
+        new XMLInterface().setVisible(true);
     }//GEN-LAST:event_xmlButtonActionPerformed
 
     private void datButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datButtonActionPerformed
         // TODO add your handling code here:
+//        new DATInterface().setVisible(true);
     }//GEN-LAST:event_datButtonActionPerformed
 
     /**
