@@ -30,12 +30,9 @@ public class UI extends javax.swing.JFrame {
         jsonButton = new javax.swing.JButton();
         xmlButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        datButton = new javax.swing.JButton();
+        objButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(536, 106));
-        setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         csvButton.setText("Menú CSV");
         csvButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -44,7 +41,6 @@ public class UI extends javax.swing.JFrame {
                 csvButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(csvButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 91, 50));
 
         jsonButton.setText("Menú JSON");
         jsonButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -53,7 +49,6 @@ public class UI extends javax.swing.JFrame {
                 jsonButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jsonButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, -1, 50));
 
         xmlButton.setText("Menú XML");
         xmlButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -62,20 +57,50 @@ public class UI extends javax.swing.JFrame {
                 xmlButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(xmlButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 91, 50));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("GESTIÓN DE PROYECTOS DE EMPRESA");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
-        datButton.setText("Menú DAT");
-        datButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        datButton.addActionListener(new java.awt.event.ActionListener() {
+        objButton.setText("Menú OBJ");
+        objButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        objButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                datButtonActionPerformed(evt);
+                objButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(datButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 50, 91, 50));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(csvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addComponent(jsonButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(xmlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(objButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(59, 59, 59))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(csvButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jsonButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(xmlButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(objButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -95,10 +120,10 @@ public class UI extends javax.swing.JFrame {
         new XMLInterface().setVisible(true);
     }//GEN-LAST:event_xmlButtonActionPerformed
 
-    private void datButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datButtonActionPerformed
+    private void objButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objButtonActionPerformed
         // TODO add your handling code here:
-//        new DATInterface().setVisible(true);
-    }//GEN-LAST:event_datButtonActionPerformed
+        new ObjectFileInterface().setVisible(true);
+    }//GEN-LAST:event_objButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -137,9 +162,9 @@ public class UI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton csvButton;
-    private javax.swing.JButton datButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jsonButton;
+    private javax.swing.JButton objButton;
     private javax.swing.JButton xmlButton;
     // End of variables declaration//GEN-END:variables
 
