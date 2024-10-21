@@ -89,7 +89,7 @@ public class CSVInterface extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            Proyecto nuevoProyecto = form.getProyecto();
+            Proyecto nuevoProyecto = form.getProject();
             projectManager.addProject(nuevoProyecto);
             try {
                 projectManager.saveInCSV(projectManager.getFilePath(filename));
@@ -126,13 +126,13 @@ public class CSVInterface extends JFrame {
         if (index >= 0) {
             Proyecto proyectoActual = projectManager.getProjects().get(index);
             ProyectoForm form = new ProyectoForm();
-            form.setProyecto(proyectoActual);
+            form.setProject(proyectoActual);
 
             int result = JOptionPane.showConfirmDialog(this, form, "Modificar Proyecto",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                Proyecto proyectoModificado = form.getProyecto();
+                Proyecto proyectoModificado = form.getProject();
                 projectManager.modifyProject(proyectoActual.getNombre(), proyectoModificado);
                 try {
                     projectManager.saveInCSV(projectManager.getFilePath(filename));

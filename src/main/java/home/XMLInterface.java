@@ -89,7 +89,7 @@ public class XMLInterface extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            Proyecto newProject = form.getProyecto();
+            Proyecto newProject = form.getProject();
             projectManager.addProject(newProject);
             try {
                 projectManager.saveInXML(projectManager.getFilePath(filename));
@@ -126,13 +126,13 @@ public class XMLInterface extends JFrame {
         if (index >= 0) {
             Proyecto actualProject = projectManager.getProjects().get(index);
             ProyectoForm form = new ProyectoForm();
-            form.setProyecto(actualProject);
+            form.setProject(actualProject);
 
             int result = JOptionPane.showConfirmDialog(this, form, "Modificar Proyecto",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                Proyecto modifiedProject = form.getProyecto();
+                Proyecto modifiedProject = form.getProject();
                 projectManager.modifyProject(actualProject.getNombre(), modifiedProject);
                 try {
                     projectManager.saveInXML(projectManager.getFilePath(filename));

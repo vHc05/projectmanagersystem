@@ -36,7 +36,7 @@ public class ProyectoForm extends JPanel {
     }
 
     // Método para obtener un objeto Proyecto a partir de los campos
-    public Proyecto getProyecto() {
+    public Proyecto getProject() {
         String nombre = nombreField.getText();
         String responsable = responsableField.getText();
         String fechaInicio = fechaInicioField.getText();
@@ -45,7 +45,7 @@ public class ProyectoForm extends JPanel {
 
         return new Proyecto(nombre, responsable, fechaInicio, fechaFin, estado);
     }
-    public void setProyecto(Proyecto proyecto) {
+    public void setProject(Proyecto proyecto) {
         nombreField.setText(proyecto.getNombre());
         responsableField.setText(proyecto.getResponsable());
         fechaInicioField.setText(proyecto.getFechaInicio());
