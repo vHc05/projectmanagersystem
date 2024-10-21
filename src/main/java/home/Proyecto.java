@@ -1,12 +1,13 @@
 package home;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Proyecto implements Serializable {
     private String nombre;
     private String responsable;
-    private String fechaInicio;
-    private String fechaFin;
+    private Date fechaInicio;
+    private Date fechaFin;
     private String estado;
 
     // Constructor por defecto
@@ -14,7 +15,7 @@ public class Proyecto implements Serializable {
     }
 
     // Constructor con parámetros
-    public Proyecto(String nombre, String responsable, String fechaInicio, String fechaFin, String estado) {
+    public Proyecto(String nombre, String responsable, Date fechaInicio, Date fechaFin, String estado) {
         this.nombre = nombre;
         this.responsable = responsable;
         this.fechaInicio = fechaInicio;
@@ -27,10 +28,10 @@ public class Proyecto implements Serializable {
     public void setNombre(String nombre) { this.nombre = nombre; }
     public String getResponsable() { return responsable; }
     public void setResponsable(String responsable) { this.responsable = responsable; }
-    public String getFechaInicio() { return fechaInicio; }
-    public void setFechaInicio(String fechaInicio) { this.fechaInicio = fechaInicio; }
-    public String getFechaFin() { return fechaFin; }
-    public void setFechaFin(String fechaFin) { this.fechaFin = fechaFin; }
+    public Date getFechaInicio() { return fechaInicio; }
+    public void setFechaInicio(Date fechaInicio) { this.fechaInicio = fechaInicio; }
+    public Date getFechaFin() { return fechaFin; }
+    public void setFechaFin(Date fechaFin) { this.fechaFin = fechaFin; }
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
 }

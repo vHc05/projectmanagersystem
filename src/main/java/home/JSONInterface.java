@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 
 public class JSONInterface extends JFrame {
     private ProyectoManager proyectoManager;
@@ -15,6 +16,7 @@ public class JSONInterface extends JFrame {
     private JButton deleteButton;
     private JButton modifyButton;
     private JButton downloadButton;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Formato para las fechas
 
     public JSONInterface() {
         proyectoManager = new ProyectoManager();
@@ -79,7 +81,8 @@ public class JSONInterface extends JFrame {
     private void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
-            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
+            String fechaInicioStr = sdf.format(p.getFechaInicio());
+            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + fechaInicioStr);
         }
     }
 

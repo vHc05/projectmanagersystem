@@ -4,24 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class CSVInterface extends JFrame {
+public class ObjectFileInterface extends JFrame {
     private ProyectoManager proyectoManager;
     private JList<String> projectList;
     private DefaultListModel<String> listModel;
-    private String filename = "proyectos.csv";
+    private String filename = "proyectos.obj";
     private JButton deleteButton;
     private JButton modifyButton;
     private JButton downloadButton;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Formato para las fechas
 
-    public CSVInterface() {
+    public ObjectFileInterface() {
         proyectoManager = new ProyectoManager();
-        setTitle("Proyectos en CSV");
+        setTitle("Proyectos en Fichero de Objetos");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -35,18 +33,18 @@ public class CSVInterface extends JFrame {
         JPanel buttonPanel = new JPanel();
 
         JButton addButton = new JButton("Agregar Proyecto");
-        addButton.addActionListener(e -> addProyect());
+        addButton.addActionListener(e -> addProject());
         buttonPanel.add(addButton);
 
         // Botones Eliminar y Modificar, inicialmente deshabilitados
         deleteButton = new JButton("Eliminar Proyecto");
         deleteButton.setEnabled(false);
-        deleteButton.addActionListener(e -> deleteProyect());
+        deleteButton.addActionListener(e -> deleteProject());
         buttonPanel.add(deleteButton);
 
         modifyButton = new JButton("Modificar Proyecto");
         modifyButton.setEnabled(false);
-        modifyButton.addActionListener(e -> modifyProyect());
+        modifyButton.addActionListener(e -> modifyProject());
         buttonPanel.add(modifyButton);
 
         // Botón para descargar el archivo
@@ -64,48 +62,47 @@ public class CSVInterface extends JFrame {
         });
 
         // Cargar proyectos al iniciar
-        loadCSV();
+        loadObjectFile();
     }
 
-    private void loadCSV() {
+    private void loadObjectFile() {
         try {
-            proyectoManager.cargarDesdeCSV(proyectoManager.getFilePath(filename));
+            proyectoManager.cargarDesdeObjetos(proyectoManager.getFilePath(filename));
             reloadDisplay();
             if (proyectoManager.getProyectos().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar CSV: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar el fichero de objetos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
-            String fechaInicioStr = sdf.format(p.getFechaInicio());
-            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + fechaInicioStr);
+            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
         }
     }
 
-    private void addProyect() {
+    private void addProject() {
         ProyectoForm form = new ProyectoForm();
         int result = JOptionPane.showConfirmDialog(this, form, "Agregar Proyecto",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            Proyecto nuevoProyecto = form.getProyecto();
-            proyectoManager.agregarProyecto(nuevoProyecto);
+            Proyecto newProject = form.getProyecto();
+            proyectoManager.agregarProyecto(newProject);
             try {
-                proyectoManager.guardarEnCSV(proyectoManager.getFilePath(filename));
+                proyectoManager.guardarEnObjetos(proyectoManager.getFilePath(filename));
                 reloadDisplay();
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Error al guardar CSV: " + e.getMessage(),
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al guardar el fichero de objetos: " + e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    private void deleteProyect() {
+    private void deleteProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyecto = proyectoManager.getProyectos().get(index);
@@ -115,34 +112,34 @@ public class CSVInterface extends JFrame {
             if (confirm == JOptionPane.YES_OPTION) {
                 proyectoManager.eliminarProyecto(proyecto.getNombre());
                 try {
-                    proyectoManager.guardarEnCSV(proyectoManager.getFilePath(filename));
+                    proyectoManager.guardarEnObjetos(proyectoManager.getFilePath(filename));
                     reloadDisplay();
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(this, "Error al guardar CSV: " + e.getMessage(),
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Error al guardar el fichero de objetos: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
     }
 
-    private void modifyProyect() {
+    private void modifyProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
-            Proyecto proyectoActual = proyectoManager.getProyectos().get(index);
+            Proyecto actualProject = proyectoManager.getProyectos().get(index);
             ProyectoForm form = new ProyectoForm();
-            form.setProyecto(proyectoActual);
+            form.setProyecto(actualProject);
 
             int result = JOptionPane.showConfirmDialog(this, form, "Modificar Proyecto",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                Proyecto proyectoModificado = form.getProyecto();
-                proyectoManager.modificarProyecto(proyectoActual.getNombre(), proyectoModificado);
+                Proyecto modifiedProject = form.getProyecto();
+                proyectoManager.modificarProyecto(actualProject.getNombre(), modifiedProject);
                 try {
-                    proyectoManager.guardarEnCSV(proyectoManager.getFilePath(filename));
+                    proyectoManager.guardarEnObjetos(proyectoManager.getFilePath(filename));
                     reloadDisplay();
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(this, "Error al guardar CSV: " + e.getMessage(),
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Error al guardar el fichero de objetos: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -154,11 +151,11 @@ public class CSVInterface extends JFrame {
         fileChooser.setSelectedFile(new File(filename));
         int option = fileChooser.showSaveDialog(this);
         if (option == JFileChooser.APPROVE_OPTION) {
-            File destino = fileChooser.getSelectedFile();
-            String origenPath = proyectoManager.getFilePath(filename);
-            File origen = new File(origenPath);
+            File destination = fileChooser.getSelectedFile();
+            String originPath = proyectoManager.getFilePath(filename);
+            File origin = new File(originPath);
             try {
-                Files.copy(origen.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(origin.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 JOptionPane.showMessageDialog(this, "Archivo descargado exitosamente.", "Éxito",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
