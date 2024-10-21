@@ -13,7 +13,7 @@ public class ProyectoForm extends JPanel {
     private JTextField fechaFinField;
     private JTextField estadoField;
 
-    // Formato de fecha que vamos a utilizar (YYYY-MM-DD)
+    // Formato de fecha que vamos a utilizar (DD-MM-YYYY)
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public ProyectoForm() {

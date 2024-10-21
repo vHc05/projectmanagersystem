@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -66,14 +65,21 @@ public class ObjectFileInterface extends JFrame {
     }
 
     private void loadObjectFile() {
-        try {
-            proyectoManager.cargarDesdeObjetos(proyectoManager.getFilePath(filename));
-            reloadDisplay();
-            if (proyectoManager.getProyectos().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        File file = new File(proyectoManager.getFilePath(filename));
+
+        // Verificar si el archivo existe o está vacío
+        if (!file.exists() || file.length() == 0) {
+            JOptionPane.showMessageDialog(this, "El fichero de objetos está vacío o no existe. Se agregarán nuevos registros.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                proyectoManager.cargarDesdeObjetos(proyectoManager.getFilePath(filename));
+                reloadDisplay();
+                if (proyectoManager.getProyectos().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de objetos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar el fichero de objetos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
