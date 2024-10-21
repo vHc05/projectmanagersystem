@@ -32,23 +32,23 @@ public class JSONInterface extends JFrame {
         JPanel buttonPanel = new JPanel();
 
         JButton addButton = new JButton("Agregar Proyecto");
-        addButton.addActionListener(e -> agregarProyecto());
+        addButton.addActionListener(e -> addProject());
         buttonPanel.add(addButton);
 
         // Botones Eliminar y Modificar, inicialmente deshabilitados
         deleteButton = new JButton("Eliminar Proyecto");
         deleteButton.setEnabled(false);
-        deleteButton.addActionListener(e -> eliminarProyecto());
+        deleteButton.addActionListener(e -> deleteProject());
         buttonPanel.add(deleteButton);
 
         modifyButton = new JButton("Modificar Proyecto");
         modifyButton.setEnabled(false);
-        modifyButton.addActionListener(e -> modificarProyecto());
+        modifyButton.addActionListener(e -> modifyProject());
         buttonPanel.add(modifyButton);
 
         // Botón para descargar el archivo
         downloadButton = new JButton("Descargar Archivo");
-        downloadButton.addActionListener(e -> descargarArchivo());
+        downloadButton.addActionListener(e -> downloadFile());
         buttonPanel.add(downloadButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
@@ -61,13 +61,13 @@ public class JSONInterface extends JFrame {
         });
 
         // Cargar proyectos al iniciar
-        cargarJSON();
+        loadJSON();
     }
 
-    private void cargarJSON() {
+    private void loadJSON() {
         try {
             proyectoManager.cargarDesdeJSON(proyectoManager.getFilePath(filename));
-            actualizarDisplay();
+            reloadDisplay();
             if (proyectoManager.getProyectos().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -76,14 +76,14 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void actualizarDisplay() {
+    private void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
             listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
         }
     }
 
-    private void agregarProyecto() {
+    private void addProject() {
         ProyectoForm form = new ProyectoForm();
         int result = JOptionPane.showConfirmDialog(this, form, "Agregar Proyecto",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -93,7 +93,7 @@ public class JSONInterface extends JFrame {
             proyectoManager.agregarProyecto(nuevoProyecto);
             try {
                 proyectoManager.guardarEnJSON(proyectoManager.getFilePath(filename));
-                actualizarDisplay();
+                reloadDisplay();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Error al guardar JSON: " + e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -101,7 +101,7 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void eliminarProyecto() {
+    private void deleteProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyecto = proyectoManager.getProyectos().get(index);
@@ -112,7 +112,7 @@ public class JSONInterface extends JFrame {
                 proyectoManager.eliminarProyecto(proyecto.getNombre());
                 try {
                     proyectoManager.guardarEnJSON(proyectoManager.getFilePath(filename));
-                    actualizarDisplay();
+                    reloadDisplay();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar JSON: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -121,7 +121,7 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void modificarProyecto() {
+    private void modifyProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyectoActual = proyectoManager.getProyectos().get(index);
@@ -136,7 +136,7 @@ public class JSONInterface extends JFrame {
                 proyectoManager.modificarProyecto(proyectoActual.getNombre(), proyectoModificado);
                 try {
                     proyectoManager.guardarEnJSON(proyectoManager.getFilePath(filename));
-                    actualizarDisplay();
+                    reloadDisplay();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar JSON: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -145,7 +145,7 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void descargarArchivo() {
+    private void downloadFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setSelectedFile(new File(filename));
         int option = fileChooser.showSaveDialog(this);

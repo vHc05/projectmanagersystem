@@ -32,23 +32,23 @@ public class CSVInterface extends JFrame {
         JPanel buttonPanel = new JPanel();
 
         JButton addButton = new JButton("Agregar Proyecto");
-        addButton.addActionListener(e -> agregarProyecto());
+        addButton.addActionListener(e -> addProyect());
         buttonPanel.add(addButton);
 
         // Botones Eliminar y Modificar, inicialmente deshabilitados
         deleteButton = new JButton("Eliminar Proyecto");
         deleteButton.setEnabled(false);
-        deleteButton.addActionListener(e -> eliminarProyecto());
+        deleteButton.addActionListener(e -> deleteProyect());
         buttonPanel.add(deleteButton);
 
         modifyButton = new JButton("Modificar Proyecto");
         modifyButton.setEnabled(false);
-        modifyButton.addActionListener(e -> modificarProyecto());
+        modifyButton.addActionListener(e -> modifyProyect());
         buttonPanel.add(modifyButton);
 
         // Botón para descargar el archivo
         downloadButton = new JButton("Descargar Archivo");
-        downloadButton.addActionListener(e -> descargarArchivo());
+        downloadButton.addActionListener(e -> downloadFile());
         buttonPanel.add(downloadButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
@@ -61,13 +61,13 @@ public class CSVInterface extends JFrame {
         });
 
         // Cargar proyectos al iniciar
-        cargarCSV();
+        loadCSV();
     }
 
-    private void cargarCSV() {
+    private void loadCSV() {
         try {
             proyectoManager.cargarDesdeCSV(proyectoManager.getFilePath(filename));
-            actualizarDisplay();
+            reloadDisplay();
             if (proyectoManager.getProyectos().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -76,14 +76,14 @@ public class CSVInterface extends JFrame {
         }
     }
 
-    private void actualizarDisplay() {
+    private void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
             listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
         }
     }
 
-    private void agregarProyecto() {
+    private void addProyect() {
         ProyectoForm form = new ProyectoForm();
         int result = JOptionPane.showConfirmDialog(this, form, "Agregar Proyecto",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -93,7 +93,7 @@ public class CSVInterface extends JFrame {
             proyectoManager.agregarProyecto(nuevoProyecto);
             try {
                 proyectoManager.guardarEnCSV(proyectoManager.getFilePath(filename));
-                actualizarDisplay();
+                reloadDisplay();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Error al guardar CSV: " + e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -101,7 +101,7 @@ public class CSVInterface extends JFrame {
         }
     }
 
-    private void eliminarProyecto() {
+    private void deleteProyect() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyecto = proyectoManager.getProyectos().get(index);
@@ -112,7 +112,7 @@ public class CSVInterface extends JFrame {
                 proyectoManager.eliminarProyecto(proyecto.getNombre());
                 try {
                     proyectoManager.guardarEnCSV(proyectoManager.getFilePath(filename));
-                    actualizarDisplay();
+                    reloadDisplay();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar CSV: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -121,7 +121,7 @@ public class CSVInterface extends JFrame {
         }
     }
 
-    private void modificarProyecto() {
+    private void modifyProyect() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyectoActual = proyectoManager.getProyectos().get(index);
@@ -136,7 +136,7 @@ public class CSVInterface extends JFrame {
                 proyectoManager.modificarProyecto(proyectoActual.getNombre(), proyectoModificado);
                 try {
                     proyectoManager.guardarEnCSV(proyectoManager.getFilePath(filename));
-                    actualizarDisplay();
+                    reloadDisplay();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar CSV: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -145,7 +145,7 @@ public class CSVInterface extends JFrame {
         }
     }
 
-    private void descargarArchivo() {
+    private void downloadFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setSelectedFile(new File(filename));
         int option = fileChooser.showSaveDialog(this);
