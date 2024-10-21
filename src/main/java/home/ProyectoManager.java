@@ -23,8 +23,7 @@ import java.util.Optional;
 @XmlRootElement
 public class ProyectoManager {
     private List<Proyecto> proyectos = new ArrayList<>();
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Cambiar a "dd-MM-yyyy"
     public String getFilePath(String filename) {
         return "src/assets/" + filename;
     }

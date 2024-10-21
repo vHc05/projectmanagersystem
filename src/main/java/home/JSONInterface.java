@@ -16,7 +16,7 @@ public class JSONInterface extends JFrame {
     private JButton deleteButton;
     private JButton modifyButton;
     private JButton downloadButton;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Formato para las fechas
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Cambiar a "dd-MM-yyyy"
 
     public JSONInterface() {
         proyectoManager = new ProyectoManager();

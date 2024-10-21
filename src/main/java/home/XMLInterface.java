@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 
 public class XMLInterface extends JFrame {
     private ProyectoManager proyectoManager;
@@ -15,6 +16,7 @@ public class XMLInterface extends JFrame {
     private JButton deleteButton;
     private JButton modifyButton;
     private JButton downloadButton;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Cambiar a "dd-MM-yyyy"
 
     public XMLInterface() {
         proyectoManager = new ProyectoManager();
@@ -35,7 +37,6 @@ public class XMLInterface extends JFrame {
         addButton.addActionListener(e -> addProject());
         buttonPanel.add(addButton);
 
-        // Botones Eliminar y Modificar, inicialmente deshabilitados
         deleteButton = new JButton("Eliminar Proyecto");
         deleteButton.setEnabled(false);
         deleteButton.addActionListener(e -> deleteProject());
@@ -46,21 +47,18 @@ public class XMLInterface extends JFrame {
         modifyButton.addActionListener(e -> modifyProject());
         buttonPanel.add(modifyButton);
 
-        // Botón para descargar el archivo
         downloadButton = new JButton("Descargar Archivo");
         downloadButton.addActionListener(e -> downloadFile());
         buttonPanel.add(downloadButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Listener para habilitar botones cuando se selecciona un proyecto
         projectList.addListSelectionListener(e -> {
             boolean seleccion = !projectList.isSelectionEmpty();
             deleteButton.setEnabled(seleccion);
             modifyButton.setEnabled(seleccion);
         });
 
-        // Cargar proyectos al iniciar
         loadXML();
     }
 
@@ -79,10 +77,11 @@ public class XMLInterface extends JFrame {
     private void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
-            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
+            String fechaInicioStr = sdf.format(p.getFechaInicio());
+            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + fechaInicioStr);
         }
     }
-
+    
     private void addProject() {
         ProyectoForm form = new ProyectoForm();
         int result = JOptionPane.showConfirmDialog(this, form, "Agregar Proyecto",

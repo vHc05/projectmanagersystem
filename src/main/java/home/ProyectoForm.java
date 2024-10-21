@@ -54,7 +54,7 @@ public class ProyectoForm extends JPanel {
             fechaInicio = dateFormat.parse(fechaInicioField.getText());
             fechaFin = dateFormat.parse(fechaFinField.getText());
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use DD-MM-YYYY.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         // Retornar un nuevo objeto Proyecto

@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 
 public class ObjectFileInterface extends JFrame {
     private ProyectoManager proyectoManager;
@@ -16,6 +16,7 @@ public class ObjectFileInterface extends JFrame {
     private JButton deleteButton;
     private JButton modifyButton;
     private JButton downloadButton;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Cambiar a "dd-MM-yyyy"
 
     public ObjectFileInterface() {
         proyectoManager = new ProyectoManager();
@@ -24,19 +25,16 @@ public class ObjectFileInterface extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Inicializar el modelo de lista y la lista de proyectos
         listModel = new DefaultListModel<>();
         projectList = new JList<>(listModel);
         add(new JScrollPane(projectList), BorderLayout.CENTER);
 
-        // Panel de botones
         JPanel buttonPanel = new JPanel();
 
         JButton addButton = new JButton("Agregar Proyecto");
         addButton.addActionListener(e -> addProject());
         buttonPanel.add(addButton);
 
-        // Botones Eliminar y Modificar, inicialmente deshabilitados
         deleteButton = new JButton("Eliminar Proyecto");
         deleteButton.setEnabled(false);
         deleteButton.addActionListener(e -> deleteProject());
@@ -47,21 +45,18 @@ public class ObjectFileInterface extends JFrame {
         modifyButton.addActionListener(e -> modifyProject());
         buttonPanel.add(modifyButton);
 
-        // Botón para descargar el archivo
         downloadButton = new JButton("Descargar Archivo");
         downloadButton.addActionListener(e -> downloadFile());
         buttonPanel.add(downloadButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Listener para habilitar botones cuando se selecciona un proyecto
         projectList.addListSelectionListener(e -> {
             boolean seleccion = !projectList.isSelectionEmpty();
             deleteButton.setEnabled(seleccion);
             modifyButton.setEnabled(seleccion);
         });
 
-        // Cargar proyectos al iniciar
         loadObjectFile();
     }
 
@@ -80,7 +75,8 @@ public class ObjectFileInterface extends JFrame {
     private void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
-            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
+            String fechaInicioStr = sdf.format(p.getFechaInicio());
+            listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + fechaInicioStr);
         }
     }
 
