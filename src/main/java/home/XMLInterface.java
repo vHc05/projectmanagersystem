@@ -32,23 +32,23 @@ public class XMLInterface extends JFrame {
         JPanel buttonPanel = new JPanel();
 
         JButton addButton = new JButton("Agregar Proyecto");
-        addButton.addActionListener(e -> agregarProyecto());
+        addButton.addActionListener(e -> addProject());
         buttonPanel.add(addButton);
 
         // Botones Eliminar y Modificar, inicialmente deshabilitados
         deleteButton = new JButton("Eliminar Proyecto");
         deleteButton.setEnabled(false);
-        deleteButton.addActionListener(e -> eliminarProyecto());
+        deleteButton.addActionListener(e -> deleteProject());
         buttonPanel.add(deleteButton);
 
         modifyButton = new JButton("Modificar Proyecto");
         modifyButton.setEnabled(false);
-        modifyButton.addActionListener(e -> modificarProyecto());
+        modifyButton.addActionListener(e -> modifyProject());
         buttonPanel.add(modifyButton);
 
         // Botón para descargar el archivo
         downloadButton = new JButton("Descargar Archivo");
-        downloadButton.addActionListener(e -> descargarArchivo());
+        downloadButton.addActionListener(e -> downloadFile());
         buttonPanel.add(downloadButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
@@ -61,13 +61,13 @@ public class XMLInterface extends JFrame {
         });
 
         // Cargar proyectos al iniciar
-        cargarXML();
+        loadXML();
     }
 
-    private void cargarXML() {
+    private void loadXML() {
         try {
             proyectoManager.cargarDesdeXML(proyectoManager.getFilePath(filename));
-            actualizarDisplay();
+            reloadDisplay();
             if (proyectoManager.getProyectos().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -76,24 +76,24 @@ public class XMLInterface extends JFrame {
         }
     }
 
-    private void actualizarDisplay() {
+    private void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
             listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
         }
     }
 
-    private void agregarProyecto() {
+    private void addProject() {
         ProyectoForm form = new ProyectoForm();
         int result = JOptionPane.showConfirmDialog(this, form, "Agregar Proyecto",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            Proyecto nuevoProyecto = form.getProyecto();
-            proyectoManager.agregarProyecto(nuevoProyecto);
+            Proyecto newProject = form.getProyecto();
+            proyectoManager.agregarProyecto(newProject);
             try {
                 proyectoManager.guardarEnXML(proyectoManager.getFilePath(filename));
-                actualizarDisplay();
+                reloadDisplay();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error al guardar XML: " + e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
@@ -101,7 +101,7 @@ public class XMLInterface extends JFrame {
         }
     }
 
-    private void eliminarProyecto() {
+    private void deleteProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyecto = proyectoManager.getProyectos().get(index);
@@ -112,7 +112,7 @@ public class XMLInterface extends JFrame {
                 proyectoManager.eliminarProyecto(proyecto.getNombre());
                 try {
                     proyectoManager.guardarEnXML(proyectoManager.getFilePath(filename));
-                    actualizarDisplay();
+                    reloadDisplay();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar XML: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -121,22 +121,22 @@ public class XMLInterface extends JFrame {
         }
     }
 
-    private void modificarProyecto() {
+    private void modifyProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
-            Proyecto proyectoActual = proyectoManager.getProyectos().get(index);
+            Proyecto actualProject = proyectoManager.getProyectos().get(index);
             ProyectoForm form = new ProyectoForm();
-            form.setProyecto(proyectoActual);
+            form.setProyecto(actualProject);
 
             int result = JOptionPane.showConfirmDialog(this, form, "Modificar Proyecto",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
-                Proyecto proyectoModificado = form.getProyecto();
-                proyectoManager.modificarProyecto(proyectoActual.getNombre(), proyectoModificado);
+                Proyecto modifiedProject = form.getProyecto();
+                proyectoManager.modificarProyecto(actualProject.getNombre(), modifiedProject);
                 try {
                     proyectoManager.guardarEnXML(proyectoManager.getFilePath(filename));
-                    actualizarDisplay();
+                    reloadDisplay();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar XML: " + e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -145,16 +145,16 @@ public class XMLInterface extends JFrame {
         }
     }
 
-    private void descargarArchivo() {
+    private void downloadFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setSelectedFile(new File(filename));
         int option = fileChooser.showSaveDialog(this);
         if (option == JFileChooser.APPROVE_OPTION) {
-            File destino = fileChooser.getSelectedFile();
-            String origenPath = proyectoManager.getFilePath(filename);
-            File origen = new File(origenPath);
+            File destination = fileChooser.getSelectedFile();
+            String originPath = proyectoManager.getFilePath(filename);
+            File origin = new File(originPath);
             try {
-                Files.copy(origen.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(origin.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 JOptionPane.showMessageDialog(this, "Archivo descargado exitosamente.", "Éxito",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
