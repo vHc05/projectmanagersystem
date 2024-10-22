@@ -7,14 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ProyectoForm extends JPanel {
-    private JTextField nombreField;
-    private JTextField responsableField;
-    private JTextField fechaInicioField;
-    private JTextField fechaFinField;
-    private JTextField estadoField;
+    public JTextField nombreField;
+    public JTextField responsableField;
+    public JTextField fechaInicioField;
+    public JTextField fechaFinField;
+    public JTextField estadoField;
 
     // Formato de fecha que vamos a utilizar (DD-MM-YYYY)
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public ProyectoForm() {
         setLayout(new GridLayout(5, 2));

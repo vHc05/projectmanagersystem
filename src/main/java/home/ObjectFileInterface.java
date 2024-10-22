@@ -11,7 +11,7 @@ public class ObjectFileInterface extends JFrame {
     private ProyectoManager proyectoManager;
     private JList<String> projectList;
     private DefaultListModel<String> listModel;
-    private String filename = "proyectos.obj";
+    private String filename = "proyectos.dat"; // Cambiar a .dat
     private JButton deleteButton;
     private JButton modifyButton;
     private JButton downloadButton;
@@ -171,3 +171,4 @@ public class ObjectFileInterface extends JFrame {
         }
     }
 }
+
