@@ -49,15 +49,32 @@ public class ProyectoForm extends JPanel {
         Date fechaFin = null;
         String estado = estadoField.getText();
 
+        // Expresión regular para validar el formato yyyy-MM-dd
+        String datePattern = "\\d{4}-\\d{2}-\\d{2}";
+
+        // Validar el formato de fecha de inicio
+        if (!fechaInicioField.getText().matches(datePattern)) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use el formato YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null; // No crear el proyecto si la fecha no es válida
+        }
+
+        // Validar el formato de fecha de fin
+        if (!fechaFinField.getText().matches(datePattern)) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use el formato YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null; // No crear el proyecto si la fecha no es válida
+        }
+
         try {
-            // Convertir las fechas ingresadas a objetos Date
+            // Parsear las fechas si cumplen con el formato correcto
             fechaInicio = dateFormat.parse(fechaInicioField.getText());
             fechaFin = dateFormat.parse(fechaFinField.getText());
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
+            // En el caso extremadamente raro de que falle el parseo (pese a pasar la validación), mostramos error
+            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Asegúrese de que esté en formato YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
 
-        // Retornar un nuevo objeto Proyecto
+        // Retornar un nuevo objeto Proyecto solo si las fechas son válidas
         return new Proyecto(nombre, responsable, fechaInicio, fechaFin, estado);
     }
 
