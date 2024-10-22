@@ -65,14 +65,19 @@ public class JSONInterface extends JFrame {
     }
 
     private void loadJSON() {
-        try {
-            proyectoManager.cargarDesdeJSON(proyectoManager.getFilePath(filename));
-            reloadDisplay();
-            if (proyectoManager.getProyectos().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        File file = new File(proyectoManager.getFilePath(filename));
+        if (!file.exists() || file.length() == 0) {
+            JOptionPane.showMessageDialog(this, "El archivo está vacío o no existe. Se agregarán nuevos registros.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                proyectoManager.cargarDesdeJSON(proyectoManager.getFilePath(filename));
+                reloadDisplay();
+                if (proyectoManager.getProyectos().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error al cargar JSON: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar JSON: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

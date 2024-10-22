@@ -65,14 +65,21 @@ public class CSVInterface extends JFrame {
     }
 
     private void loadCSV() {
-        try {
-            proyectoManager.cargarDesdeCSV(proyectoManager.getFilePath(filename));
-            reloadDisplay();
-            if (proyectoManager.getProyectos().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        File file = new File(proyectoManager.getFilePath(filename));
+
+        // Verificar si el archivo existe
+        if (!file.exists() || file.length() == 0) {
+            JOptionPane.showMessageDialog(this, "El archivo está vacío o no existe. Se agregarán nuevos registros.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                proyectoManager.cargarDesdeCSV(proyectoManager.getFilePath(filename));
+                reloadDisplay();
+                if (proyectoManager.getProyectos().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error al cargar CSV: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar CSV: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

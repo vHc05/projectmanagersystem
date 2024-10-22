@@ -65,14 +65,21 @@ public class XMLInterface extends JFrame {
     }
 
     private void loadXML() {
-        try {
-            proyectoManager.cargarDesdeXML(proyectoManager.getFilePath(filename));
-            reloadDisplay();
-            if (proyectoManager.getProyectos().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        File file = new File(proyectoManager.getFilePath(filename));
+
+        // Verificar si el archivo existe o está vacío
+        if (!file.exists() || file.length() == 0) {
+            JOptionPane.showMessageDialog(this, "El archivo XML está vacío o no existe. Se agregarán nuevos registros.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                proyectoManager.cargarDesdeXML(proyectoManager.getFilePath(filename));
+                reloadDisplay();
+                if (proyectoManager.getProyectos().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No hay proyectos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al cargar XML: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar XML: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
