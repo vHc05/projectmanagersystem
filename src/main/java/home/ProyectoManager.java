@@ -25,8 +25,17 @@ public class ProyectoManager {
     private List<Proyecto> proyectos = new ArrayList<>();
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+
     public String getFilePath(String filename) {
-        return "src/assets/" + filename;
+        String directoryPath = "src/assets/";
+        File directory = new File(directoryPath);
+
+        // Si la carpeta no existe, crearla
+        if (!directory.exists()) {
+            directory.mkdirs();  // Crea la carpeta y cualquier subcarpeta que falte
+        }
+
+        return directoryPath + filename;
     }
 
     @XmlElement
