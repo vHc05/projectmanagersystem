@@ -75,7 +75,7 @@ public class ProyectoManager {
     public void guardarEnXML(String filepath) throws Exception {
         JAXBContext context = JAXBContext.newInstance(ProyectoManager.class);
         Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Optional.of(true));
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         try (FileOutputStream fos = new FileOutputStream(filepath)) {
             marshaller.marshal(this, fos);
         }

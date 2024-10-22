@@ -63,6 +63,8 @@ public class ProyectoForm extends JPanel {
 
     // Método para cargar un proyecto existente en los campos
     public void setProyecto(Proyecto proyecto) {
+
+        System.out.print(proyecto);
         nombreField.setText(proyecto.getNombre());
         responsableField.setText(proyecto.getResponsable());
 
