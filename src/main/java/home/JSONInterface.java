@@ -8,8 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class JSONInterface extends JFrame {
-    private ProyectoManager proyectoManager;
-    private JList<String> projectList;
+    public ProyectoManager proyectoManager;
+    public JList<String> projectList;
     private DefaultListModel<String> listModel;
     private String filename = "proyectos.json";
     private JButton deleteButton;
@@ -64,7 +64,7 @@ public class JSONInterface extends JFrame {
         loadJSON();
     }
 
-    private void loadJSON() {
+    public void loadJSON() {
         File file = new File(proyectoManager.getFilePath(filename));
         if (!file.exists() || file.length() == 0) {
             JOptionPane.showMessageDialog(this, "El archivo está vacío o no existe. Se agregarán nuevos registros.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -81,14 +81,14 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void reloadDisplay() {
+    public void reloadDisplay() {
         listModel.clear();
         for (Proyecto p : proyectoManager.getProyectos()) {
             listModel.addElement(p.getNombre() + " - " + p.getResponsable() + " - " + p.getFechaInicio());
         }
     }
 
-    private void addProject() {
+    public void addProject() {
         ProyectoForm form = new ProyectoForm();
         int result = JOptionPane.showConfirmDialog(this, form, "Agregar Proyecto",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -106,7 +106,7 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void deleteProject() {
+    public void deleteProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyecto = proyectoManager.getProyectos().get(index);
@@ -126,7 +126,7 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void modifyProject() {
+    public void modifyProject() {
         int index = projectList.getSelectedIndex();
         if (index >= 0) {
             Proyecto proyectoActual = proyectoManager.getProyectos().get(index);
@@ -150,7 +150,7 @@ public class JSONInterface extends JFrame {
         }
     }
 
-    private void downloadFile() {
+    public void downloadFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setSelectedFile(new File(filename));
         int option = fileChooser.showSaveDialog(this);

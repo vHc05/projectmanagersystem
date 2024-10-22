@@ -161,11 +161,11 @@ public class UI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton csvButton;
+    public javax.swing.JButton csvButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JButton jsonButton;
-    private javax.swing.JButton objButton;
-    private javax.swing.JButton xmlButton;
+    public javax.swing.JButton jsonButton;
+    public javax.swing.JButton objButton;
+    public javax.swing.JButton xmlButton;
     // End of variables declaration//GEN-END:variables
 
 }

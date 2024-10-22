@@ -46,19 +46,13 @@ class ProyectoFormTest {
     }
 
     @Test
-    void testGetProyecto_InvalidDateFormat() {
+       void testGetProyecto_InvalidDateFormat() throws ParseException {
         // Establecer valores de prueba con un formato de fecha incorrecto
         proyectoForm.nombreField.setText("Proyecto Test");
         proyectoForm.responsableField.setText("Responsable Test");
         proyectoForm.fechaInicioField.setText("20-10-2024"); // Formato incorrecto
         proyectoForm.fechaFinField.setText("2024-10-30");
         proyectoForm.estadoField.setText("En Progreso");
-
-        // Captura el diálogo de advertencia
-        // Almacena el sistema de salida actual para restaurarlo después
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
 
         Proyecto proyecto = proyectoForm.getProyecto();
 
@@ -68,9 +62,11 @@ class ProyectoFormTest {
         // Verifica que la fecha de inicio esté como null
         assertNull(proyecto.getFechaInicio());
         
-        // Restaura la salida del sistema
-        System.setOut(originalOut);
+        // Verifica que la fecha de fin se haya establecido correctamente
+        Date expectedFechaFin = proyectoForm.dateFormat.parse("2024-10-30");
+        assertEquals(expectedFechaFin, proyecto.getFechaFin());
     }
+
 
     @Test
     void testSetProyecto() {

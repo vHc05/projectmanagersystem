@@ -64,7 +64,7 @@ public class CSVInterface extends JFrame {
         loadCSV();
     }
 
-    private void loadCSV() {
+    public void loadCSV() {
         File file = new File(proyectoManager.getFilePath(filename));
 
         // Verificar si el archivo existe
