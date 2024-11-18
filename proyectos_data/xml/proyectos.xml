@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<proyectoManager>
+    <proyectos>
+        <estado>En progreso</estado>
+        <fechaFin>2024-12-31</fechaFin>
+        <fechaInicio>2024-01-01</fechaInicio>
+        <nombre>Proyecto A</nombre>
+        <responsable>Juan Pérez</responsable>
+    </proyectos>
+</proyectoManager>

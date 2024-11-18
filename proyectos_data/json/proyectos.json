@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "nombre": "Proyecto A",
+        "responsable": "Juan Pérez",
+        "fechaInicio": "2024-01-01",
+        "fechaFin": "2024-12-31",
+        "estado": "En progreso"
+      }
+      
+]
